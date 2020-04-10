@@ -2,13 +2,15 @@ import os
 import discord
 from getpass import getpass
 from discord.ext import commands
-#from filetype import filetype
 
 bot = commands.Bot(command_prefix='insta ')
 
 usr_ = input("What is your Instagram username?\n")
 passwd = getpass("What is the password of your Instagram account?\n")
 
+i = 0
+
+usrCmdArg = "omarmwaseem"
 
 @bot.event
 async def on_ready():
@@ -17,59 +19,44 @@ async def on_ready():
 
 @bot.command()
 async def usr(ctx, arg):
+    global i
+    global usrCmdArg
+    usrCmdArg = arg
     await ctx.send("Processing your request... ")
     print("Starting to fetch data... ")
     os.system("instagram-scraper " + arg + " -u " + usr_ + " -p " + passwd)
     print("Done.")
-    i = 0
     repeat = True
     while(repeat == True):
-        try:
+        if str(os.listdir("./" + arg)[i]).endswith('.jpg'):
             await ctx.send(file=discord.File('./' + arg + '/' + os.listdir("./" + arg)[i]))
             repeat = False
-        except:
+        elif str(os.listdir("./" + arg)[i]).endswith('.mp4'):
+            print("File is not of JPEG type, skipping... ")
             i = i + 1
-            try:
-                await ctx.send(file=discord.File('./' + arg + '/' + os.listdir("./" + arg)[i]))
-                repeat = False
-            except:
-                i = i + 1
-                await ctx.send(file=discord.File('./' + arg + '/' + os.listdir("./" + arg)[i]))
-                repeat = True
+            repeat = True
+        else:
+            print("Some other file type than *.mp4 and *.jpg is in this directory. Please post this in the \"Issues\" tab of ")
+            i = i + 1
+            repeat = True
 
 @bot.command()
-async def N(ctx, arg):
+async def N(ctx, *arg):
+    global i
+    global usrCmdArg
     i = i + 1
     repeat = True
     while(repeat == True):
-        try:
-            await ctx.send(file=discord.File('./' + arg + '/' + os.listdir("./" + arg)[i]))
+        if str(os.listdir("./" + usrCmdArg)[i]).endswith('.jpg'):
+            await ctx.send(file=discord.File('./' + usrCmdArg + '/' + os.listdir("./" + usrCmdArg)[i]))
             repeat = False
-        except:
+        elif str(os.listdir("./" + usrCmdArg)[i]).endswith('.mp4'):
+            print("File is not of JPEG type, skipping... ")
             i = i + 1
-            try:
-                await ctx.send(file=discord.File('./' + arg + '/' + os.listdir("./" + arg)[i]))
-                repeat = False
-            except:
-                i = i + 1
-                await ctx.send(file=discord.File('./' + arg + '/' + os.listdir("./" + arg)[i]))
-                repeat = True
+            repeat = True
+        else:
+            print("Some other file type than *.mp4 and *.jpg is in this directory. Please post this in the \"Issues\" tab of ")
+            i = i + 1
+            repeat = True
 
-#@bot.command()
-#async def usr(ctx, arg):
-#    await ctx.send("Processing your request... ")
-#    print("Starting to fetch data... ")
-#    #os.system("instagram-scraper " + arg + " -u " + usr_ + " -p " + passwd)
-#    print("Done.")
-#    print(os.listdir("./" + arg)[0])
-#    kind = filetype.guess('./' + arg + '/' + os.listdir("./" + arg)[0])
-#    #print(kind.extension)
-#    print('File extension: %s' % kind.extension)
-#    if kind is not image/jpeg:
-#        pass;
-#    await ctx.send(file=discord.File('./' + arg + '/' + os.listdir("./" + arg)[0]))
-
-
-
-#client = MyClient()
-bot.run('Njk3NjUxMzc3NjY0NTU3MTA4.Xo6YhA.hUmgnBJggnhWszkl5zXEgf5Irpw')
+bot.run('')
