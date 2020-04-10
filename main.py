@@ -24,7 +24,10 @@ async def usr(ctx, arg):
     usrCmdArg = arg
     await ctx.send("Processing your request... ")
     print("Starting to fetch data... ")
-    os.system("instagram-scraper " + arg + " -u " + usr_ + " -p " + passwd)
+    if (os.path.isdir("./" + arg)):
+        pass
+    else:
+        os.system("instagram-scraper " + arg + " -u " + usr_ + " -p " + passwd)
     print("Done.")
     repeat = True
     while(repeat == True):
@@ -58,5 +61,24 @@ async def N(ctx, *arg):
             print("Some other file type than *.mp4 and *.jpg is in this directory. Please post this in the \"Issues\" tab of ")
             i = i + 1
             repeat = True
+
+#@bot.command()
+#async def B(ctx, *arg):
+#    global i
+#    global usrCmdArg
+#    i = i + 1
+#    repeat = True
+#    while(repeat == True):
+#        if str(os.listdir("./" + usrCmdArg)[i]).endswith('.jpg'):
+#            await ctx.send(file=discord.File('./' + usrCmdArg + '/' + os.listdir("./" + usrCmdArg)[i]))
+#            repeat = False
+#        elif str(os.listdir("./" + usrCmdArg)[i]).endswith('.mp4'):
+#            print("File is not of JPEG type, skipping... ")
+#            i = i - 1
+#            repeat = True
+#        else:
+#            print("Some other file type than *.mp4 and *.jpg is in this directory. Please post this in the \"Issues\" tab of ")
+#            i = i - 1
+#            repeat = True
 
 bot.run('')
