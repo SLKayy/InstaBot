@@ -108,4 +108,4 @@ async def ls(ctx, *arg):
             else:
                 await ctx.send(i1)
 
-bot.run('Njk3NjUxMzc3NjY0NTU3MTA4.Xo7USA.vr_icsKwonChN8M3xMFVdoiae_I')
+bot.run('Njk3NjUxMzc3NjY0NTU3MTA4.XpNakg.PN5D44Apg1uK3-opJqmCKNtzXeo')
